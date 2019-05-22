@@ -3,13 +3,13 @@ import sys
 import json
 import globus_sdk
 from configobj import ConfigObj
-from funcx_sdk import version
+from paropt_sdk import version
 
 __all__ = (
     # option name constants
-    'FUNCX_RT_OPTNAME',
-    'FUNCX_AT_OPTNAME',
-    'FUNCX_AT_EXPIRES_OPTNAME',
+    'PAROPT_RT_OPTNAME',
+    'PAROPT_AT_OPTNAME',
+    'PAROPT_AT_EXPIRES_OPTNAME',
 
     'write_option',
     'lookup_option',
@@ -22,15 +22,15 @@ __all__ = (
 )
 
 # The path to read and write servable definitions.
-PAROPT_SERVICE_ADDRESS = 'https://localhost:8080/api/v1' # 'https://54.175.19.214/api/v1' # "https://funcx.org/api/v1"
+PAROPT_SERVICE_ADDRESS = 'https://54.175.19.214:8080/api/v1' # 'https://54.175.19.214/api/v1' # "https://funcx.org/api/v1"
 
-CONF_SECTION_NAME = 'funcx'
+CONF_SECTION_NAME = 'paropt'
 
 # client id for paropt NATIVE application
 CLIENT_ID = '805f14ef-0699-4e1f-801e-96919f64d0a7'
-FUNCX_RT_OPTNAME = 'funcx_refresh_token'
-FUNCX_AT_OPTNAME = 'funcx_access_token'
-FUNCX_AT_EXPIRES_OPTNAME = 'funcx_access_token_expires'
+PAROPT_RT_OPTNAME = 'paropt_refresh_token'
+PAROPT_AT_OPTNAME = 'paropt_access_token'
+PAROPT_AT_EXPIRES_OPTNAME = 'paropt_access_token_expires'
 
 GLOBUS_ENV = os.environ.get('GLOBUS_SDK_ENVIRONMENT')
 # if GLOBUS_ENV:
@@ -116,7 +116,7 @@ def check_logged_in():
 
     :return:
     """
-    search_rt = lookup_option(FUNCX_RT_OPTNAME)
+    search_rt = lookup_option(PAROPT_RT_OPTNAME)
     if search_rt is None:
         return False
     native_client = internal_auth_client()

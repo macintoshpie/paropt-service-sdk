@@ -5,9 +5,9 @@ import platform
 import globus_sdk
 
 from globus_sdk import RefreshTokenAuthorizer
-from funcx_sdk.config import (internal_auth_client, safeprint, lookup_option, write_option,
+from paropt_sdk.config import (internal_auth_client, safeprint, lookup_option, write_option,
                               remove_option, check_logged_in,
-                              FUNCX_RT_OPTNAME, FUNCX_AT_OPTNAME, FUNCX_AT_EXPIRES_OPTNAME)
+                              PAROPT_RT_OPTNAME, PAROPT_AT_OPTNAME, PAROPT_AT_EXPIRES_OPTNAME)
 
 
 def do_login_flow():
@@ -21,7 +21,7 @@ def do_login_flow():
 
     label = platform.node() or None
 
-    FUNCX_SCOPE = 'https://auth.globus.org/scopes/facd7ccc-c5f4-42aa-916b-a0e270e2c2a9/all'
+    PAROPT_SCOPE = 'https://auth.globus.org/scopes/81fc4156-a623-47f2-93ad-7184118226ba/auth'
 
     native_client.oauth2_start_flow(
         requested_scopes=FUNCX_SCOPE,
@@ -53,9 +53,9 @@ def make_authorizer():
     auth_client = internal_auth_client()
 
     # Get the tokens needed by the service
-    rf_token = lookup_option(FUNCX_RT_OPTNAME)
-    at_token = lookup_option(FUNCX_AT_OPTNAME)
-    at_expires = int(lookup_option(FUNCX_AT_EXPIRES_OPTNAME))
+    rf_token = lookup_option(PAROPT_RT_OPTNAME)
+    at_token = lookup_option(PAROPT_AT_OPTNAME)
+    at_expires = int(lookup_option(PAROPT_AT_EXPIRES_OPTNAME))
     authorizer = RefreshTokenAuthorizer(rf_token, auth_client, access_token=at_token,
                                         expires_at=at_expires)
 
@@ -71,7 +71,7 @@ def logout():
 
     # remove tokens from config and revoke them
     # also, track whether or not we should print the rescind help
-    for token_opt in (FUNCX_RT_OPTNAME, FUNCX_AT_OPTNAME):
+    for token_opt in (PAROPT_RT_OPTNAME, PAROPT_AT_OPTNAME):
         # first lookup the token -- if not found we'll continue
         token = lookup_option(token_opt)
         if not token:
@@ -92,7 +92,7 @@ def logout():
         remove_option(token_opt)
 
     # remove expiration time, just for cleanliness
-    remove_option(FUNCX_AT_EXPIRES_OPTNAME)
+    remove_option(PAROPT_AT_EXPIRES_OPTNAME)
 
 
 def _revoke_current_tokens(native_client):
@@ -102,7 +102,7 @@ def _revoke_current_tokens(native_client):
     Args:
          native_client (NativeAppAuthClient): Authorization client for scope to be cleared
     """
-    for token_opt in (FUNCX_RT_OPTNAME, FUNCX_AT_OPTNAME):
+    for token_opt in (PAROPT_RT_OPTNAME, PAROPT_AT_OPTNAME):
         token = lookup_option(token_opt)
         if token:
             native_client.oauth2_revoke_token(token)
@@ -117,10 +117,10 @@ def _store_config(token_response):
     """
     tkn = token_response.by_resource_server
 
-    funcx_at = tkn['funcx_service']['access_token']
-    funcx_rt = tkn['funcx_service']['refresh_token']
-    funcx_at_expires = tkn['funcx_service']['expires_at_seconds']
+    paropt_at = tkn['paropt_service']['access_token']
+    paropt_rt = tkn['paropt_service']['refresh_token']
+    paropt_at_expires = tkn['paropt_service']['expires_at_seconds']
 
-    write_option(FUNCX_RT_OPTNAME, funcx_rt)
-    write_option(FUNCX_AT_OPTNAME, funcx_at)
-    write_option(FUNCX_AT_EXPIRES_OPTNAME, funcx_at_expires)
+    write_option(PAROPT_RT_OPTNAME, paropt_rt)
+    write_option(PAROPT_AT_OPTNAME, paropt_at)
+    write_option(PAROPT_AT_EXPIRES_OPTNAME, paropt_at_expires)

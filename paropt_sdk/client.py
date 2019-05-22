@@ -47,7 +47,7 @@ class ParoptClient(BaseClient):
                              app_name="paropt",
                              client_id=CLIENT_ID, clear_old_tokens=force_login,
                              token_dir=_token_dir)
-            dlh_authorizer = auth_res['auth.globus.org']
+            dlh_authorizer = auth_res['dlhub_org']
 
         super(ParoptClient, self).__init__("paropt",
                                           authorizer=dlh_authorizer,

@@ -6,6 +6,9 @@ Use flag `-h` for help.
 ```bash
 ./paropt_cli.py -h
 ```
+### Env var configs
+- `GLOBUS_SDK_SSL_VERIFY`: when `False`, globus requests don't verify ssl (required currently due to self signed certs)
+- `PAROPT_SERVICE_DOMAIN`: defaults to the aws instance, but can be set to `localhost` if developing locally
 
 ## Examples
 See `/experiments` and `/optimizers` for example files use. These are intended to be *examples* for you to modify to fit your needs. Do not expect them to work by default.

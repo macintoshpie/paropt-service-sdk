@@ -134,10 +134,10 @@ if __name__ == '__main__':
     sys.exit(1)
   
   try:
-    print("---- Creating client ----")
+    print("\n---- Creating client ----")
     po = ParoptClient()
 
-    print("---- Creating/getting experiment ----")
+    print("\n---- Creating/getting experiment ----")
     exp_res = po.getOrCreateExperiment(experiment)
     print(dir(exp_res))
     printResponse(exp_res)
@@ -148,7 +148,7 @@ if __name__ == '__main__':
     if not exp_id:
       raise Exception("Expected experiment response to contain 'id'")
 
-    print("---- Running job ----")
+    print("\n---- Running job ----")
     trial_res = po.runTrial(exp_id, optimizer)
     printResponse(trial_res)
     if not httpOK(trial_res):
@@ -156,11 +156,11 @@ if __name__ == '__main__':
     trial_data = trial_res.data
     submitted_job_id = trial_data.get('job', {}).get('job_id')
     
-    print("---- Starting to wait for job to finish ----")
+    print("\n---- Starting to wait for job to finish ----")
     if args.maxwait != 0:
       waitForJob(po, submitted_job_id, args.maxwait)
 
-      print("---- Checking if job was successful ----")
+      print("\n---- Checking if job was successful ----")
       res = po.getFailedExperiments()
       failed_experiments = res.data
       if not httpOK(res):
@@ -175,8 +175,8 @@ if __name__ == '__main__':
     else:
       print("Max wait == 0, not waiting for job to finish...")
       
-    print("---- Finished ----")
+    print("\n---- Finished ----")
 
   except:
-    print("---- Error ----")
+    print("\n---- Error ----")
     raise

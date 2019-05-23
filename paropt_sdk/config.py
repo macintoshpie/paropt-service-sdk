@@ -22,7 +22,8 @@ __all__ = (
 )
 
 # The path to read and write servable definitions.
-PAROPT_SERVICE_ADDRESS = 'https://54.175.19.214:8080/api/v1' # 'https://54.175.19.214/api/v1' # "https://funcx.org/api/v1"
+PAROPT_SERVICE_DOMAIN = os.getenv('PAROPT_SERVICE_DOMAIN') or '54.175.19.214'
+PAROPT_SERVICE_ADDRESS = f'https://{PAROPT_SERVICE_DOMAIN}:8080/api/v1'
 
 CONF_SECTION_NAME = 'paropt'
 

@@ -5,3 +5,4 @@ nbsphinx
 configobj
 globus_sdk
 mdf_toolbox
+pyyaml

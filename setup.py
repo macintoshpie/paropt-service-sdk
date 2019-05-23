@@ -15,7 +15,7 @@ setup(
     long_description=("paropt SDK contains a Python interface to the Paropt "
                       "Service."),
     install_requires=[
-        "pandas", "requests", "jsonschema", "globus_sdk", "configobj"
+        "pandas", "requests", "jsonschema", "globus_sdk", "configobj", "pyyaml"
     ],
     python_requires=">=3.4",
     classifiers=[

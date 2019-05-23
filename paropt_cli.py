@@ -60,8 +60,13 @@ def waitForJob(po: ParoptClient, job_id: str, max_wait: int, sleep_interval=1) -
     time.sleep(sleep_interval_secs)
     job_res = po.getJob(job_id)
     if job_res.http_status == 200:
-      if job_res.get('job', {}).get('job_status') == 'finished':
+      job_data = job_res.data.get('job', {})
+      job_status = job_data.get('job_status')
+      if job_status == 'finished':
         return True
+      elif job_status == 'failed':
+        raise Exception(f'Server failed to run trials. See error info below (from server):\n'
+                        f'{job_data.get("job_exc_info", "")}'.replace('\n', '\n| '))
       else:
         # still running
         continue
@@ -145,19 +150,7 @@ if __name__ == '__main__':
     print("\n---- Starting to wait for job to finish ----")
     if args.maxwait != 0:
       waitForJob(po, submitted_job_id, args.maxwait)
-
-      print("\n---- Checking if job was successful ----")
-      res = po.getFailedExperiments()
-      failed_experiments = res.data
-      if not httpOK(res):
-        print("Unable to get failed experiments, skipping...")
-      if not isinstance(failed_experiments, list):
-        print("Expected response to be list, skipping...")
-      for exp in failed_experiments:
-        if exp['job_id'] == submitted_job_id:
-          raise Exception(f'Server failed to run trials. See error info below (from server):\n'
-                          f'{exp.get("job_exc_info", "")}'.replace('\n', '\n| '))
-      print('Successfully ran optimizations')
+      print('Successfully ran trials for experiment')
     else:
       print("Max wait == 0, not waiting for job to finish...")
       

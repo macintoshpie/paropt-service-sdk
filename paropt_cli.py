@@ -139,7 +139,6 @@ if __name__ == '__main__':
 
     print("\n---- Creating/getting experiment ----")
     exp_res = po.getOrCreateExperiment(experiment)
-    print(dir(exp_res))
     printResponse(exp_res)
     if not httpOK(exp_res):
       raise Exception("Failed to create experiment (status code not ok)")

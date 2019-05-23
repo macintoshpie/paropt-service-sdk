@@ -1,6 +1,17 @@
 ## TLDR
 Simple cli/sdk for making http requests to a paropt-service.
 
+## Setup
+```bash
+git clone git@github.com:macintoshpie/paropt-service-sdk.git &&
+  cd paropt-service-sdk &&
+  pip install -r requirements.txt
+
+export GLOBUS_SDK_SSL_VERIFY=False
+
+./paropt_cli.py -h
+```
+
 ## Usage
 Use flag `-h` for help.
 ```bash

@@ -58,32 +58,19 @@ def waitForJob(po: ParoptClient, job_id: str, max_wait: int, sleep_interval=1) -
   while time.time() < timeout and n_fails < MAX_FAILS:
     print(f"Job running, going to sleep for {sleep_interval} minutes...")
     time.sleep(sleep_interval_secs)
-    running_res = po.getRunningExperiments()
-    running_jobs = running_res.data
-
-    # check if response is valid
-    if not httpOK(running_res):
+    job_res = po.getJob(job_id)
+    if job_res.http_status == 200:
+      if job_res.get('job', {}).get('job_status') == 'finished':
+        return True
+      else:
+        # still running
+        continue
+    else:
+      # something unexpected happened
       n_fails += 1
-      print("WARNING: Expected running jobs response to be ok:")
-      printResponse(running_res)
+      print("WARNING: Unexpected response:")
+      printResponse(job_res)
       continue
-    if not isinstance(running_jobs, list):
-      n_fails += 1
-      print("WARNING: Expected running jobs response to be a list:")
-      printResponse(running_res)
-      continue
-
-    # check if our job is still running
-    running = False
-    for job in running_jobs:
-      if job['job_id'] == job_id:
-        running = True
-        break
-
-    if not running:
-      # job finished running
-      print('Job finished running')
-      return True
   
   # failed to finish job in max time or too many fails occurred
   if n_fails == MAX_FAILS:

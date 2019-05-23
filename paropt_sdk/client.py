@@ -72,7 +72,16 @@ class ParoptClient(BaseClient):
         return self.get(f'/experiments/{experiment_id}/trials')
 
     def getRunningExperiments(self):
-        return self.get('/experiments/running')
+        return self.get('/jobs/running')
 
     def getFailedExperiments(self):
-        return self.get('/experiments/failed')
+        return self.get('/jobs/failed')
+
+    def getQueuedExperiments(self):
+        return self.get('/jobs/queued')
+    
+    def getJob(self, job_id):
+        return self.get(f'/jobs/{job_id}')
+    
+    def getExperimentJob(self, experiment_id):
+        return self.get(f'/experiments/{experiment_id}/job')

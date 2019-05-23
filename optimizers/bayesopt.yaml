@@ -1,0 +1,6 @@
+# Example for running bayesian optimization
+type: bayesopt
+# number of random points to evaluate first
+n_init: 2
+# number of points to evaluate after fitting model with previous results
+n_iter: 2

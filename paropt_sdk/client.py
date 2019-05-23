@@ -59,13 +59,17 @@ class ParoptClient(BaseClient):
         logout()
     
     def getOrCreateExperiment(self, experiment):
-        return self.post('/experiments')
+        return self.post('/experiments',
+                         json_body=experiment,
+                         headers={'content-type': 'application/json'})
 
     def runTrial(self, experiment_id, optimizer):
-        return self.post('/experiments/{experiment_id}/trials')
+        return self.post(f'/experiments/{experiment_id}/trials',
+                         json_body=optimizer,
+                         headers={'content-type': 'application/json'})
 
     def getTrials(self, experiment_id):
-        return self.get('/experiments/{experiment_id}/trials')
+        return self.get(f'/experiments/{experiment_id}/trials')
 
     def getRunningExperiments(self):
         return self.get('/experiments/running')

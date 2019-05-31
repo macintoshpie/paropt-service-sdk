@@ -22,7 +22,7 @@ __all__ = (
 )
 
 # The path to read and write servable definitions.
-PAROPT_SERVICE_DOMAIN = os.getenv('PAROPT_SERVICE_DOMAIN') or '54.175.19.214'
+PAROPT_SERVICE_DOMAIN = os.getenv('PAROPT_SERVICE_DOMAIN') or '35.168.128.54'
 PAROPT_SERVICE_ADDRESS = f'https://{PAROPT_SERVICE_DOMAIN}:8080/api/v1'
 
 CONF_SECTION_NAME = 'paropt'
